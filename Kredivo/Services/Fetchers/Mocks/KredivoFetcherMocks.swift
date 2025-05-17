@@ -15,7 +15,7 @@ struct KredivoMobileCreditFetcherMock: KredivoMobileCreditFetcherProtocol {
         self.mockResponse = mockResponse
     }
     
-    func fetch() async throws -> KredivoMobileCreditResponse {
+    func fetch(mobileNumber: String) async throws -> KredivoMobileCreditResponse {
         if let error: KredivoNetworkError = error {
             throw error
         }

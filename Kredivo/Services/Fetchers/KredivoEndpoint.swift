@@ -11,14 +11,19 @@ enum KredivoEndpoint {
     
     static private let baseURLString: String = "https://api.kredivo.com"
     
-    case mobileCredit
+    case mobileCredit(mobileNumber: String)
     case voucher
     case status
     
     var url: URL? {
         switch self {
-        case .mobileCredit:
-            return URL(string: "\(Self.baseURLString)/v1/mobile-credit")
+        case .mobileCredit(let mobileNumber):
+            var components: URLComponents? = URLComponents(string: "\(Self.baseURLString)/v1/mobile-credit")
+            components?.queryItems = [URLQueryItem(
+                name: "mobile_number",
+                value: mobileNumber
+            )]
+            return components?.url
         case .voucher:
             return URL(string: "\(Self.baseURLString)/v1/voucher")
         case .status:

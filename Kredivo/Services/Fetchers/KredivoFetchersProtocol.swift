@@ -8,7 +8,7 @@
 import Foundation
 
 protocol KredivoMobileCreditFetcherProtocol {
-    func fetch() async throws -> KredivoMobileCreditResponse
+    func fetch(mobileNumber: String) async throws -> KredivoMobileCreditResponse
 }
 
 protocol KredivoVoucherFetcherProtocol {

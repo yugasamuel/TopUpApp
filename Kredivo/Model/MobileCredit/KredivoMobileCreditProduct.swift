@@ -7,7 +7,8 @@
 
 import Foundation
 
-struct KredivoMobileCreditProduct: Decodable {
+struct KredivoMobileCreditProduct: Decodable, Identifiable {
+    var id: String { productCode }
     let productCode: String
     let billType: String
     let label: String
@@ -16,6 +17,23 @@ struct KredivoMobileCreditProduct: Decodable {
     let description: String
     let sequence: Int?
     let price: Double
+    
+    var formattedNominal: String? {
+        guard let price: Double = Double(nominal) else { return nil }
+
+        let formatter: NumberFormatter = NumberFormatter()
+        formatter.numberStyle = .decimal
+        formatter.groupingSeparator = "."
+        formatter.decimalSeparator = ","
+        return formatter.string(from: NSNumber(value: price)) ?? nil
+    }
+    
+    var formattedPrice: String? {
+        let formatter: NumberFormatter = NumberFormatter()
+        formatter.numberStyle = .currency
+        formatter.currencyCode = Locale.current.currencyCode
+        return formatter.string(from: NSNumber(value: price)) ?? nil
+    }
     
     enum CodingKeys: String, CodingKey {
         case productCode = "product_code"

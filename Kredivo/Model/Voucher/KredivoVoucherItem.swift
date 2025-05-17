@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct KredivoVoucherItem: Decodable {
+struct KredivoVoucherItem: Decodable, Identifiable {
     let name: String
     let number: Int
     let percentage: Int

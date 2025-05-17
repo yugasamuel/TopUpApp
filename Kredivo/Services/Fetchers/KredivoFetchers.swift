@@ -8,8 +8,8 @@
 import Foundation
 
 struct KredivoMobileCreditFetcher: KredivoMobileCreditFetcherProtocol {
-    func fetch() async throws -> KredivoMobileCreditResponse {
-        let endpoint: KredivoEndpoint = KredivoEndpoint.mobileCredit
+    func fetch(mobileNumber: String) async throws -> KredivoMobileCreditResponse {
+        let endpoint: KredivoEndpoint = KredivoEndpoint.mobileCredit(mobileNumber: mobileNumber)
         
         guard let request: URLRequest = endpoint.request else {
             throw KredivoNetworkError.invalidURL(endpoint.url)
