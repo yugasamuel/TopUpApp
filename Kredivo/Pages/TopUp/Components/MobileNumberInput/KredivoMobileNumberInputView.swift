@@ -11,6 +11,8 @@ struct KredivoMobileNumberInputView: View {
     
     @StateObject var viewModel: KredivoMobileNumberInputViewModel
     
+    let onChangeIsValidMobileNumber: ((Bool) -> Void)?
+    
     var body: some View {
         HStack(spacing: 8.0) {
             VStack {
@@ -31,7 +33,7 @@ struct KredivoMobileNumberInputView: View {
             .overlay(
                 Circle()
                     .stroke(style: StrokeStyle(lineWidth: 3.0))
-                    .foregroundColor(.blue)
+                    .foregroundColor(KredivoColor.blue.toColor)
             )
             .clipShape(.circle)
             .animation(.default, value: viewModel.isValidMobileNumber)
@@ -84,9 +86,15 @@ struct KredivoMobileNumberInputView: View {
         .onChange(of: viewModel.mobileNumber) { mobileNumber in
             viewModel.onChangeMobileNumber(mobileNumber)
         }
+        .onChange(of: viewModel.isValidMobileNumber) { isValid in
+            onChangeIsValidMobileNumber?(isValid)
+        }
     }
 }
 
 #Preview {
-    KredivoMobileNumberInputView(viewModel: KredivoMobileNumberInputViewModel())
+    KredivoMobileNumberInputView(
+        viewModel: KredivoMobileNumberInputViewModel(),
+        onChangeIsValidMobileNumber: nil
+    )
 }

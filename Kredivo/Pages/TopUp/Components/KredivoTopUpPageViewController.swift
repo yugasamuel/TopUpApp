@@ -10,9 +10,21 @@ import UIKit
 
 final class KredivoTopUpPageViewController: UIViewController {
     
+    private let viewModel: KredivoTopUpPageViewModel
+    
+    init(viewModel: KredivoTopUpPageViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationItem.title = "Top Up"
         setupView()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented.")
     }
 }
 
@@ -20,7 +32,7 @@ private extension KredivoTopUpPageViewController {
     func setupView() {
         let hostingController: UIHostingController = UIHostingController(
             rootView: KredivoTopUpPageView(
-                viewModel: KredivoTopUpPageViewModel()
+                viewModel: self.viewModel
             )
         )
         

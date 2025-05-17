@@ -11,10 +11,13 @@ struct KredivoMobileCreditListView: View {
     
     @StateObject var viewModel: KredivoMobileCreditListViewModel
     
+    let onSelectProduct: ((KredivoMobileCreditProduct) -> Void)?
+    let onTapTryAgain: (() -> Void)?
+    
     var body: some View {
         Group {
             switch viewModel.state {
-            case .invalidOperator:
+            case .invalidMobileNumber:
                 Text("No operator found. Make sure the mobile number has at least 4 digits.")
                     .font(.body)
                     .padding(.vertical)
@@ -26,13 +29,13 @@ struct KredivoMobileCreditListView: View {
                     ForEach(products) { product in
                         createMobileCreditProductView(using: product)
                             .onTapGesture {
-                                viewModel.onTapProduct(product)
+                                onSelectProduct?(product)
                             }
                     }
                 }
             case .error(let error):
                 KredivoErrorView(title: error.localizedDescription) {
-                    viewModel.onTapTryAgain()
+                    onTapTryAgain?()
                 }
             }
         }
@@ -61,7 +64,7 @@ private extension KredivoMobileCreditListView {
                 .frame(width: 100)
                 .fixedSize()
                 .padding(12.0)
-                .background(Color.blue)
+                .background(KredivoColor.blue.toColor)
         }
         .background(Color.white)
         .padding()
@@ -73,5 +76,13 @@ private extension KredivoMobileCreditListView {
 }
 
 #Preview {
-    KredivoMobileCreditListView(viewModel: KredivoMobileCreditListViewModel())
+    KredivoMobileCreditListView(
+        viewModel: KredivoMobileCreditListViewModel(),
+        onSelectProduct: { _ in
+            print("Select product.")
+        },
+        onTapTryAgain: {
+            print("Try again.")
+        }
+    )
 }

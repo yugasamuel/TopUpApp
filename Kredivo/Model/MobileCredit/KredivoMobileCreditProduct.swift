@@ -8,7 +8,7 @@
 import Foundation
 
 struct KredivoMobileCreditProduct: Decodable, Identifiable {
-    var id: String { productCode }
+    var id: String { "\(productCode)-\(label)" }
     let productCode: String
     let billType: String
     let label: String

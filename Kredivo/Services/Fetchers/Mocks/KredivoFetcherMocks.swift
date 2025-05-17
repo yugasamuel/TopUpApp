@@ -24,6 +24,14 @@ struct KredivoMobileCreditFetcherMock: KredivoMobileCreditFetcherProtocol {
         }
         return response
     }
+    
+    static func loadMock() -> KredivoMobileCreditResponse? {
+        guard let url: URL = Bundle.main.url(forResource: "mobile-credit-response-mock", withExtension: "json"),
+              let data: Data = try? Data(contentsOf: url) else {
+            return nil
+        }
+        return try? JSONDecoder().decode(KredivoMobileCreditResponse.self, from: data)
+    }
 }
 
 struct KredivoVoucherFetcherMock: KredivoVoucherFetcherProtocol {
@@ -42,6 +50,14 @@ struct KredivoVoucherFetcherMock: KredivoVoucherFetcherProtocol {
             throw KredivoNetworkError.invalidResponse
         }
         return response
+    }
+    
+    static func loadMock() -> KredivoVoucherResponse? {
+        guard let url: URL = Bundle.main.url(forResource: "voucher-response-mock", withExtension: "json"),
+              let data: Data = try? Data(contentsOf: url) else {
+            return nil
+        }
+        return try? JSONDecoder().decode(KredivoVoucherResponse.self, from: data)
     }
 }
 

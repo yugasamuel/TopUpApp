@@ -20,7 +20,7 @@ struct KredivoVoucherItem: Decodable, Identifiable {
     let howToUse: String
     let usageCount: Int
     let startDate: String
-    let maxDiscount: Int
+    let maxDiscount: Int?
     let voucherCode: String
     
     enum CodingKeys: String, CodingKey {

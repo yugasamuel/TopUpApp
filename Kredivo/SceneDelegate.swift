@@ -21,8 +21,28 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let window: UIWindow = UIWindow(frame: windowScene.coordinateSpace.bounds)
         window.windowScene = windowScene
         
-        let rootVC: KredivoTopUpPageViewController = KredivoTopUpPageViewController()
+        var mobileCreditFetcher: KredivoMobileCreditFetcherMock = KredivoMobileCreditFetcherMock()
+        mobileCreditFetcher.mockResponse = KredivoMobileCreditFetcherMock.loadMock()
+        
+        var voucherFetcher: KredivoVoucherFetcherMock = KredivoVoucherFetcherMock()
+        voucherFetcher.mockResponse = KredivoVoucherFetcherMock.loadMock()
+        
+        let viewModel: KredivoTopUpPageViewModel = KredivoTopUpPageViewModel(
+            mobileCreditFetcher: mobileCreditFetcher,
+            voucherFetcher: voucherFetcher
+        )
+        
+        let rootVC: KredivoTopUpPageViewController = KredivoTopUpPageViewController(viewModel: viewModel)
         let navigationController: UINavigationController = UINavigationController(rootViewController: rootVC)
+        
+        let appearance: UINavigationBarAppearance = UINavigationBarAppearance()
+        appearance.backgroundColor = KredivoColor.blue
+        appearance.titleTextAttributes = [.foregroundColor: UIColor.white]
+
+        UINavigationBar.appearance().standardAppearance = appearance
+        UINavigationBar.appearance().scrollEdgeAppearance = appearance
+        UINavigationBar.appearance().compactAppearance = appearance
+        UINavigationBar.appearance().tintColor = UIColor.white
         
         window.rootViewController = navigationController
         self.window = window

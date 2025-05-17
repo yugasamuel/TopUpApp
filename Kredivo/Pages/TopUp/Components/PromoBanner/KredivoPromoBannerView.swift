@@ -11,24 +11,44 @@ struct KredivoPromoBannerView: View {
     
     @StateObject var viewModel: KredivoPromoBannerViewModel
     
+    let onSelectVoucher: ((KredivoVoucherItem) -> Void)?
+    
     var body: some View {
-        VStack(alignment: .leading) {
-            Text("Promos")
-                .font(.headline)
-            
-            ScrollView(.horizontal, showsIndicators: false) {
-                HStack {
-                    ForEach(viewModel.vouchers) { voucher in
-                        createPromoBannerItemView(using: voucher)
-                            .onTapGesture {
-                                viewModel.didSelectVoucher(voucher)
+        VStack {
+            switch viewModel.state {
+            case .loading:
+                ProgressView()
+            case .loaded(let vouchers):
+                VStack(alignment: .leading) {
+                    Text("Promos")
+                        .font(.headline)
+                    
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        HStack {
+                            ForEach(vouchers) { voucher in
+                                createPromoBannerItemView(using: voucher)
+                                    .onTapGesture {
+                                        onSelectVoucher?(voucher)
+                                    }
                             }
+                        }
+                    }
+                }
+                .padding()
+                .background(Color.white)
+            case .error(let error):
+                KredivoErrorView(title: error.localizedDescription) {
+                    Task {
+                        await viewModel.fetchVouchers()
                     }
                 }
             }
         }
-        .padding()
-        .background(Color.white)
+        .onAppear {
+            Task {
+                await viewModel.fetchVouchers()
+            }
+        }
     }
 }
 
@@ -48,5 +68,5 @@ private extension KredivoPromoBannerView {
 }
 
 #Preview {
-    KredivoPromoBannerView(viewModel: KredivoPromoBannerViewModel())
+    KredivoPromoBannerView(viewModel: KredivoPromoBannerViewModel()) { _ in }
 }

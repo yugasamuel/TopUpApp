@@ -7,13 +7,8 @@
 
 import Foundation
 
-protocol KredivoMobileCreditListViewModelDelegate: AnyObject {
-    func onTapProduct(_ product: KredivoMobileCreditProduct)
-    func onTapTryAgain()
-}
-
 enum KredivoMobileCreditListViewModelState {
-    case invalidOperator
+    case invalidMobileNumber
     case loading
     case loaded([KredivoMobileCreditProduct])
     case error(KredivoNetworkError)
@@ -21,22 +16,12 @@ enum KredivoMobileCreditListViewModelState {
 
 final class KredivoMobileCreditListViewModel: ObservableObject {
     
-    weak var delegate: KredivoMobileCreditListViewModelDelegate?
-    
     @Published private(set) var products: [KredivoMobileCreditProduct] = []
-    @Published private(set) var state: KredivoMobileCreditListViewModelState = .invalidOperator
+    @Published private(set) var state: KredivoMobileCreditListViewModelState = .invalidMobileNumber
     
     init() { }
     
     func setState(_ state: KredivoMobileCreditListViewModelState) {
         self.state = state
-    }
-    
-    func onTapProduct(_ product: KredivoMobileCreditProduct) {
-        delegate?.onTapProduct(product)
-    }
-    
-    func onTapTryAgain() {
-        delegate?.onTapTryAgain()
     }
 }

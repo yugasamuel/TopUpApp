@@ -9,14 +9,7 @@ import SwiftUI
 
 struct KredivoTopUpPageView: View {
     
-    @StateObject private var viewModel: KredivoTopUpPageViewModel
-    
-    @StateObject private var mobileNumberInputViewModel: KredivoMobileNumberInputViewModel
-    
-    init(viewModel: KredivoTopUpPageViewModel) {
-        self._viewModel = StateObject(wrappedValue: viewModel)
-        self._mobileNumberInputViewModel = StateObject(wrappedValue: viewModel.mobileNumberInputViewModel)
-    }
+    @StateObject var viewModel: KredivoTopUpPageViewModel
     
     var body: some View {
         VStack(spacing: .zero) {
@@ -31,13 +24,7 @@ struct KredivoTopUpPageView: View {
                 }
             }
         }
-        .onChange(of: viewModel.mobileNumberInputViewModel.isValidMobileNumber) { isValid in
-            if isValid {
-                Task {
-                    await viewModel.fetchMobileCredits()
-                }
-            }
-        }
+        .padding(.top, 8.0)
     }
 }
 
@@ -58,7 +45,7 @@ private extension KredivoTopUpPageView {
                 )
                 .contentShape(Rectangle())
                 .onTapGesture {
-                    viewModel.tabSelection = 0
+                    viewModel.setTabSelection(to: 0)
                 }
             
             Text("Data Package")
@@ -75,7 +62,7 @@ private extension KredivoTopUpPageView {
                 )
                 .contentShape(Rectangle())
                 .onTapGesture {
-                    viewModel.tabSelection = 1
+                    viewModel.setTabSelection(to: 1)
                 }
         }
         .padding(.vertical, 8.0)
@@ -83,20 +70,40 @@ private extension KredivoTopUpPageView {
     
     func createMobileCreditView() -> some View {
         VStack(spacing: 8.0) {
-            KredivoMobileNumberInputView(viewModel: mobileNumberInputViewModel)
+            KredivoMobileNumberInputView(viewModel: viewModel.mobileNumberInputViewModel) { isValid in
+                if isValid {
+                    Task {
+                        await viewModel.fetchMobileCredits()
+                    }
+                }
+                else {
+                    viewModel.updateStateForInvalidMobileNumber()
+                }
+            }
             
-            KredivoMobileCreditListView(viewModel: viewModel.mobileCreditListViewModel)
+            KredivoMobileCreditListView(
+                viewModel: viewModel.mobileCreditListViewModel,
+                onSelectProduct: { product in
+                    viewModel.onTapProduct(product)
+                },
+                onTapTryAgain: {
+                    Task {
+                        await viewModel.fetchMobileCredits()
+                    }
+                }
+            )
             
-            KredivoPromoBannerView(viewModel: viewModel.promoBannerViewModel)
+            KredivoPromoBannerView(viewModel: viewModel.promoBannerViewModel) { voucher in
+                viewModel.onTapVoucher(voucher)
+            }
         }
         .background(Color.secondary.opacity(0.4))
         .frame(maxHeight: .infinity, alignment: .top)
     }
     
     func createDataPackageView() -> some View {
-        VStack {
-            Text("Data package is not available.")
-        }
+        Text("Data package is currently not available.")
+            .padding()
     }
 }
 

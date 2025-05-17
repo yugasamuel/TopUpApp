@@ -35,13 +35,13 @@ struct KredivoImageView: View {
         HStack {
             switch imageLoader.state {
             case .loading:
-                Image(systemName: "loading.circle")
+                Image(systemName: "photo")
                     .resizable()
                     .onAppear {
                         preloadImage()
                     }
             case .error:
-                Image(systemName: "error")
+                Image(systemName: "photo.badge.exclamationmark.fill")
                     .resizable()
                     .scaledToFill()
                     .clipped()
