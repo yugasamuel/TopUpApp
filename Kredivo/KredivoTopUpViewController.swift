@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  KredivoTopUpViewController.swift
 //  Kredivo
 //
 //  Created by Yuga Samuel on 17/05/25.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+final class KredivoTopUpViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
