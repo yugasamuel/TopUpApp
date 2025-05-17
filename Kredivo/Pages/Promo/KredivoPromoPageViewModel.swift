@@ -1,5 +1,5 @@
 //
-//  KredivoPromoViewModel.swift
+//  KredivoPromoPageViewModel.swift
 //  Kredivo
 //
 //  Created by Yuga Samuel on 17/05/25.

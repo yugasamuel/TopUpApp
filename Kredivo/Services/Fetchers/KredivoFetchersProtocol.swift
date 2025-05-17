@@ -6,3 +6,15 @@
 //
 
 import Foundation
+
+protocol KredivoMobileCreditFetcherProtocol {
+    func fetch() async throws -> KredivoMobileCreditResponse
+}
+
+protocol KredivoVoucherFetcherProtocol {
+    func fetch() async throws -> KredivoVoucherResponse
+}
+
+protocol KredivoStatusFetcherProtocol {
+    func fetch() async throws -> KredivoStatusResponse
+}

@@ -1,5 +1,5 @@
 //
-//  KredivoServicesProtocol.swift
+//  KredivoStatusResponse.swift
 //  Kredivo
 //
 //  Created by Yuga Samuel on 17/05/25.
