@@ -13,7 +13,7 @@ protocol KredivoTopUpPageNavigationDelegate: AnyObject {
         mobileCredit: KredivoMobileCreditProduct,
         voucherFetcher: KredivoVoucherFetcherProtocol
     )
-    func navigateToVoucherDetail(voucher: KredivoVoucherItem)
+    func navigateToVoucherDetail(_ voucher: KredivoVoucherItem)
 }
 
 final class KredivoTopUpPageViewModel: ObservableObject {
@@ -71,7 +71,7 @@ final class KredivoTopUpPageViewModel: ObservableObject {
     }
     
     func onTapVoucher(_ voucher: KredivoVoucherItem) {
-        navigationDelegate?.navigateToVoucherDetail(voucher: voucher)
+        navigationDelegate?.navigateToVoucherDetail(voucher)
     }
     
     func setTabSelection(to index: Int) {

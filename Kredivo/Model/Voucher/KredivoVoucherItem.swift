@@ -36,4 +36,28 @@ struct KredivoVoucherItem: Decodable, Identifiable {
         case maxDiscount = "max_discount"
         case voucherCode = "voucher_code"
     }
+    
+    var formattedStartDate: String? {
+        formatUnixTimestamp(startDate)
+    }
+    
+    var formattedEndDate: String? {
+        formatUnixTimestamp(endDate)
+    }
+    
+    private func formatUnixTimestamp(_ timestampString: String) -> String? {
+        guard let timestamp = Double(timestampString) else {
+            print("Invalid timestamp string.")
+            return nil
+        }
+        
+        let date = Date(timeIntervalSince1970: timestamp)
+        
+        let formatter = DateFormatter()
+        formatter.dateFormat = "dd MMM yyyy"
+        formatter.timeZone = .current
+        formatter.locale = Locale(identifier: "en_US_POSIX")
+        
+        return formatter.string(from: date)
+    }
 }

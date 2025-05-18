@@ -70,12 +70,14 @@ private extension KredivoTransactionDetailsView {
             Text("Kredivo Diskon")
                 .font(.body.bold())
                 .foregroundColor(.secondary)
+                .lineLimit(1)
             
             Spacer()
             
             Text("-\(discountedPrice)")
                 .font(.body.bold())
                 .foregroundColor(.secondary)
+                .lineLimit(1)
         }
     }
 }

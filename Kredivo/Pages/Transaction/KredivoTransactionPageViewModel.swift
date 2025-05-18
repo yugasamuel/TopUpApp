@@ -9,7 +9,16 @@ import Foundation
 
 protocol KredivoTransactionPageNavigationDelegate: AnyObject {
     func navigateToStatusPage()
-    func navigateToVoucherPage()
+    func navigateToVoucherPage(
+        voucherFetcher: KredivoVoucherFetcherProtocol,
+        delegate: KredivoVoucherListPageViewModelDelegate?
+    )
+    func navigateToStatusPage(
+        mobileNumber: String,
+        mobileCreditProductCode: String,
+        mobileCreditLabel: String,
+        voucherId: Int?
+    )
 }
 
 final class KredivoTransactionPageViewModel {
@@ -38,10 +47,38 @@ final class KredivoTransactionPageViewModel {
     }
     
     func validateTransaction() {
-        navigationDelegate?.navigateToStatusPage()
+        guard pinInputViewModel.isPinValid else { return }
+        
+        let selectedVoucher: KredivoVoucherItem? = switch voucherInputViewModel.state {
+        case .empty:
+            nil
+        case .filled(let voucher):
+            voucher
+        }
+        
+        navigationDelegate?.navigateToStatusPage(
+            mobileNumber: mobileNumber,
+            mobileCreditProductCode: mobileCredit.productCode,
+            mobileCreditLabel: mobileCredit.label,
+            voucherId: selectedVoucher?.id
+        )
     }
     
     func navigateToVoucherPage() {
-        navigationDelegate?.navigateToVoucherPage()
+        navigationDelegate?.navigateToVoucherPage(voucherFetcher: voucherFetcher, delegate: self)
+    }
+    
+    func processVoucherRemoval() {
+        voucherInputViewModel.setVoucherState(.empty)
+        transactionDetailsViewModel.setVoucher(nil)
+    }
+}
+
+// MARK: - KredivoVoucherListPageViewModelDelegate
+
+extension KredivoTransactionPageViewModel: KredivoVoucherListPageViewModelDelegate {
+    func didUseVoucher(_ voucher: KredivoVoucherItem) {
+        voucherInputViewModel.setVoucherState(.filled(voucher))
+        transactionDetailsViewModel.setVoucher(voucher)
     }
 }

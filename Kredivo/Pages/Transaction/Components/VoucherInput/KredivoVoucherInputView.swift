@@ -12,6 +12,7 @@ struct KredivoVoucherInputView: View {
     @StateObject var viewModel: KredivoVoucherInputViewModel
     
     let onTapVoucherInput: (() -> Void)?
+    let onTapVoucherRemove: (() -> Void)?
     
     var body: some View {
         VStack(alignment: .leading, spacing: 16.0) {
@@ -104,7 +105,7 @@ private extension KredivoVoucherInputView {
                 .frame(width: 20.0, height: 20.0)
                 .foregroundColor(Color.gray)
                 .onTapGesture {
-                    viewModel.setVoucherState(.empty)
+                    onTapVoucherRemove?()
                 }
         }
         .padding(12.0)
@@ -120,6 +121,10 @@ private extension KredivoVoucherInputView {
 }
 
 #Preview {
-    KredivoVoucherInputView(viewModel: KredivoVoucherInputViewModel()) { }
-        .padding()
+    KredivoVoucherInputView(
+        viewModel: KredivoVoucherInputViewModel(),
+        onTapVoucherInput: {},
+        onTapVoucherRemove: {}
+    )
+    .padding()
 }

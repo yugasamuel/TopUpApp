@@ -18,9 +18,11 @@ struct KredivoTransactionPageView: View {
                 
                 KredivoTransactionDetailsView(viewModel: viewModel.transactionDetailsViewModel)
                 
-                KredivoVoucherInputView(viewModel: viewModel.voucherInputViewModel) {
+                KredivoVoucherInputView(viewModel: viewModel.voucherInputViewModel, onTapVoucherInput: {
                     viewModel.navigateToVoucherPage()
-                }
+                }, onTapVoucherRemove: {
+                    viewModel.processVoucherRemoval()
+                })
                 
                 KredivoPinInputView(viewModel: viewModel.pinInputViewModel)
             }
