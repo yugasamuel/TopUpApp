@@ -51,13 +51,13 @@ private extension KredivoMobileCreditListView {
                     .font(.subheadline)
                     .foregroundColor(.secondary)
                 
-                Text(product.formattedNominal ?? product.nominal)
+                Text(product.formattedNominal)
                     .font(.body)
             }
             
             Spacer()
             
-            Text(product.formattedPrice ?? String(product.price))
+            Text(product.formattedPrice)
                 .font(.body)
                 .foregroundColor(Color.white)
                 .lineLimit(1)

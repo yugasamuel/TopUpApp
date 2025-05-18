@@ -17,7 +17,7 @@ struct KredivoErrorView: View {
             Image(systemName: "x.circle.fill")
                 .resizable()
                 .frame(width: 50.0, height: 50.0)
-                .foregroundColor(Color.orange)
+                .foregroundColor(KredivoColor.orange.toColor)
             
             Text(title)
                 .font(.body)

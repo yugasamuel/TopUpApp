@@ -18,21 +18,21 @@ struct KredivoMobileCreditProduct: Decodable, Identifiable {
     let sequence: Int?
     let price: Double
     
-    var formattedNominal: String? {
-        guard let price: Double = Double(nominal) else { return nil }
+    var formattedNominal: String {
+        guard let price: Double = Double(nominal) else { return nominal }
 
         let formatter: NumberFormatter = NumberFormatter()
         formatter.numberStyle = .decimal
         formatter.groupingSeparator = "."
         formatter.decimalSeparator = ","
-        return formatter.string(from: NSNumber(value: price)) ?? nil
+        return formatter.string(from: NSNumber(value: price)) ?? nominal
     }
     
-    var formattedPrice: String? {
+    var formattedPrice: String {
         let formatter: NumberFormatter = NumberFormatter()
         formatter.numberStyle = .currency
         formatter.currencyCode = Locale.current.currencyCode
-        return formatter.string(from: NSNumber(value: price)) ?? nil
+        return formatter.string(from: NSNumber(value: price)) ?? String(price)
     }
     
     enum CodingKeys: String, CodingKey {
@@ -44,5 +44,13 @@ struct KredivoMobileCreditProduct: Decodable, Identifiable {
         case description
         case sequence
         case price
+    }
+    
+    func getFormattedDiscountedPrice(using discountPercentage: Int) -> String? {
+        let formatter: NumberFormatter = NumberFormatter()
+        formatter.numberStyle = .currency
+        formatter.currencyCode = Locale.current.currencyCode
+        let discountedPrice: Double = price - (price * Double(discountPercentage / 100))
+        return formatter.string(from: NSNumber(value: discountedPrice)) ?? nil
     }
 }

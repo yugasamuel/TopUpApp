@@ -10,7 +10,7 @@ import UIKit
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
-
+    var appCoordinator: KredivoAppCoordinator?
 
     func scene(_ scene: UIScene,
                willConnectTo session: UISceneSession,
@@ -21,20 +21,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let window: UIWindow = UIWindow(frame: windowScene.coordinateSpace.bounds)
         window.windowScene = windowScene
         
-        var mobileCreditFetcher: KredivoMobileCreditFetcherMock = KredivoMobileCreditFetcherMock()
-        mobileCreditFetcher.mockResponse = KredivoMobileCreditFetcherMock.loadMock()
-        
-        var voucherFetcher: KredivoVoucherFetcherMock = KredivoVoucherFetcherMock()
-        voucherFetcher.mockResponse = KredivoVoucherFetcherMock.loadMock()
-        
-        let viewModel: KredivoTopUpPageViewModel = KredivoTopUpPageViewModel(
-            mobileCreditFetcher: mobileCreditFetcher,
-            voucherFetcher: voucherFetcher
-        )
-        
-        let rootVC: KredivoTopUpPageViewController = KredivoTopUpPageViewController(viewModel: viewModel)
-        let navigationController: UINavigationController = UINavigationController(rootViewController: rootVC)
-        
         let appearance: UINavigationBarAppearance = UINavigationBarAppearance()
         appearance.backgroundColor = KredivoColor.blue
         appearance.titleTextAttributes = [.foregroundColor: UIColor.white]
@@ -43,6 +29,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         UINavigationBar.appearance().scrollEdgeAppearance = appearance
         UINavigationBar.appearance().compactAppearance = appearance
         UINavigationBar.appearance().tintColor = UIColor.white
+        
+        let navigationController: UINavigationController = UINavigationController()
+        appCoordinator = KredivoAppCoordinator(navigationController: navigationController)
+        appCoordinator?.start()
         
         window.rootViewController = navigationController
         self.window = window

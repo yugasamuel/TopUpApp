@@ -15,7 +15,7 @@ struct KredivoTopUpPageView: View {
         VStack(spacing: .zero) {
             createTabBarView()
             
-            ScrollView {
+            ScrollView(.vertical, showsIndicators: false) {
                 if viewModel.tabSelection == 0 {
                     createMobileCreditView()
                 }
@@ -33,14 +33,14 @@ private extension KredivoTopUpPageView {
         HStack(spacing: .zero) {
             Text("Pulsa")
                 .font(.body)
-                .foregroundColor(viewModel.tabSelection == 0 ? .orange : .secondary)
+                .foregroundColor(viewModel.tabSelection == 0 ? KredivoColor.orange.toColor : .secondary)
                 .fontWeight(viewModel.tabSelection == 0 ? .bold : nil)
                 .frame(maxWidth: .infinity)
                 .padding(.bottom)
                 .overlay(
                     Rectangle()
                         .frame(height: 3.0)
-                        .foregroundColor(viewModel.tabSelection == 0 ? .orange : .clear)
+                        .foregroundColor(viewModel.tabSelection == 0 ? KredivoColor.orange.toColor : .clear)
                         .frame(maxHeight: .infinity, alignment: .bottom)
                 )
                 .contentShape(Rectangle())
@@ -50,14 +50,14 @@ private extension KredivoTopUpPageView {
             
             Text("Data Package")
                 .font(.body)
-                .foregroundColor(viewModel.tabSelection == 1 ? .orange : .secondary)
+                .foregroundColor(viewModel.tabSelection == 1 ? KredivoColor.orange.toColor : .secondary)
                 .fontWeight(viewModel.tabSelection == 1 ? .bold : nil)
                 .frame(maxWidth: .infinity)
                 .padding(.bottom)
                 .overlay(
                     Rectangle()
                         .frame(height: 3.0)
-                        .foregroundColor(viewModel.tabSelection == 1 ? .orange : .clear)
+                        .foregroundColor(viewModel.tabSelection == 1 ? KredivoColor.orange.toColor : .clear)
                         .frame(maxHeight: .infinity, alignment: .bottom)
                 )
                 .contentShape(Rectangle())
@@ -97,7 +97,7 @@ private extension KredivoTopUpPageView {
                 viewModel.onTapVoucher(voucher)
             }
         }
-        .background(Color.secondary.opacity(0.4))
+        .background(KredivoColor.gray.toColor)
         .frame(maxHeight: .infinity, alignment: .top)
     }
     
@@ -108,5 +108,10 @@ private extension KredivoTopUpPageView {
 }
 
 #Preview {
-    KredivoTopUpPageView(viewModel: KredivoTopUpPageViewModel())
+    KredivoTopUpPageView(
+        viewModel: KredivoTopUpPageViewModel(
+            mobileCreditFetcher: KredivoMobileCreditFetcherMock(),
+            voucherFetcher: KredivoVoucherFetcherMock()
+        )
+    )
 }

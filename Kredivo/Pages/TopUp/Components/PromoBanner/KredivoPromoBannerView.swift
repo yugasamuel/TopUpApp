@@ -68,5 +68,11 @@ private extension KredivoPromoBannerView {
 }
 
 #Preview {
-    KredivoPromoBannerView(viewModel: KredivoPromoBannerViewModel()) { _ in }
+    KredivoPromoBannerView(
+        viewModel: KredivoPromoBannerViewModel(
+            voucherFetcher: KredivoVoucherFetcherMock(
+                mockResponse: KredivoVoucherFetcherMock.loadMock()
+            )
+        )
+    ) { _ in }
 }

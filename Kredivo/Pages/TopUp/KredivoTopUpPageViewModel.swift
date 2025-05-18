@@ -7,27 +7,38 @@
 
 import Foundation
 
+protocol KredivoTopUpPageNavigationDelegate: AnyObject {
+    func navigateToTransactionPage(
+        mobileNumber: String,
+        mobileCredit: KredivoMobileCreditProduct,
+        voucherFetcher: KredivoVoucherFetcherProtocol
+    )
+    func navigateToVoucherDetail(voucher: KredivoVoucherItem)
+}
+
 final class KredivoTopUpPageViewModel: ObservableObject {
     
     @Published private(set) var tabSelection: Int = 0
     
+    weak var navigationDelegate: KredivoTopUpPageNavigationDelegate?
+    
     let mobileNumberInputViewModel: KredivoMobileNumberInputViewModel
     let mobileCreditListViewModel: KredivoMobileCreditListViewModel
     let promoBannerViewModel: KredivoPromoBannerViewModel
-    let dataPackageViewModel: KredivoDataPackageViewModel
     
     private let mobileCreditFetcher: KredivoMobileCreditFetcherProtocol
+    private let voucherFetcher: KredivoVoucherFetcherProtocol
     
     init(
         mobileCreditFetcher: KredivoMobileCreditFetcherProtocol = KredivoMobileCreditFetcher(),
         voucherFetcher: KredivoVoucherFetcherProtocol = KredivoVoucherFetcher()
     ) {
         self.mobileCreditFetcher = mobileCreditFetcher
+        self.voucherFetcher = voucherFetcher
         
         mobileNumberInputViewModel = KredivoMobileNumberInputViewModel()
         mobileCreditListViewModel = KredivoMobileCreditListViewModel()
         promoBannerViewModel = KredivoPromoBannerViewModel(voucherFetcher: voucherFetcher)
-        dataPackageViewModel = KredivoDataPackageViewModel()
     }
     
     @MainActor
@@ -52,11 +63,15 @@ final class KredivoTopUpPageViewModel: ObservableObject {
     }
     
     func onTapProduct(_ product: KredivoMobileCreditProduct) {
-        
+        navigationDelegate?.navigateToTransactionPage(
+            mobileNumber: mobileNumberInputViewModel.mobileNumber,
+            mobileCredit: product,
+            voucherFetcher: voucherFetcher
+        )
     }
     
     func onTapVoucher(_ voucher: KredivoVoucherItem) {
-        
+        navigationDelegate?.navigateToVoucherDetail(voucher: voucher)
     }
     
     func setTabSelection(to index: Int) {
