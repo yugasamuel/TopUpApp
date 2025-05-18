@@ -6,3 +6,12 @@
 //
 
 import Foundation
+
+final class KredivoVoucherDetailPageViewModel {
+    
+    let voucher: KredivoVoucherItem
+    
+    init(voucher: KredivoVoucherItem) {
+        self.voucher = voucher
+    }
+}

@@ -8,7 +8,6 @@
 import Foundation
 
 protocol KredivoTransactionPageNavigationDelegate: AnyObject {
-    func navigateToStatusPage()
     func navigateToVoucherPage(
         voucherFetcher: KredivoVoucherFetcherProtocol,
         delegate: KredivoVoucherListPageViewModelDelegate?

@@ -55,12 +55,22 @@ extension KredivoAppCoordinator: KredivoTopUpPageNavigationDelegate, KredivoVouc
     }
     
     func navigateToVoucherDetail(_ voucher: KredivoVoucherItem) {
-        // TODO: Voucher detail
+        let viewModel: KredivoVoucherDetailPageViewModel = KredivoVoucherDetailPageViewModel(voucher: voucher)
+        
+        let viewController: KredivoVoucherDetailPageViewController = KredivoVoucherDetailPageViewController(
+            viewModel: viewModel
+        )
+        navigationController.pushViewController(viewController, animated: true)
     }
     
     func backToPreviousPage() {
         navigationController.popViewController(animated: true)
     }
+}
+
+// MARK: - KredivoTransactionPageNavigationDelegate
+
+extension KredivoAppCoordinator: KredivoTransactionPageNavigationDelegate {
     
     func navigateToStatusPage(
         mobileNumber: String,
@@ -84,15 +94,6 @@ extension KredivoAppCoordinator: KredivoTopUpPageNavigationDelegate, KredivoVouc
             viewModel: viewModel
         )
         navigationController.pushViewController(viewController, animated: true)
-    }
-}
-
-// MARK: - KredivoTransactionPageNavigationDelegate
-
-extension KredivoAppCoordinator: KredivoTransactionPageNavigationDelegate {
-    
-    func navigateToStatusPage() {
-        // TODO: Status page
     }
     
     func navigateToVoucherPage(
