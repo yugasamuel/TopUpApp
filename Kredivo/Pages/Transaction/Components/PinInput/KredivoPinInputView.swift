@@ -55,6 +55,9 @@ struct KredivoPinInputView: View {
                     )
                     .offset(x: 16.0, y: -12.0)
             )
+            
+            Text("Dengan melanjutkan saya setuju dengan [Perjanjian Pinjaman Kredivo](https://kredivo.id)")
+                .font(.body)
         }
         .padding()
         .frame(maxWidth: .infinity, alignment: .leading)

@@ -27,7 +27,7 @@ struct KredivoTransactionPageView: View {
                 KredivoPinInputView(viewModel: viewModel.pinInputViewModel)
             }
             .background(KredivoColor.gray.toColor)
-            .padding(.bottom, 20.0)
+            .padding(.bottom, 54.0)
         }
         .overlay(
             VStack {

@@ -8,9 +8,11 @@
 import Foundation
 
 struct KredivoStatusResponse: Decodable {
+    let message: String
     let transactionContext: KredivoTransactionContext
     
     enum CodingKeys: String, CodingKey {
+        case message
         case transactionContext = "transaction_context"
     }
 }

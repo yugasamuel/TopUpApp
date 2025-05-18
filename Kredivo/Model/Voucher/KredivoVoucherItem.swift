@@ -46,14 +46,14 @@ struct KredivoVoucherItem: Decodable, Identifiable {
     }
     
     private func formatUnixTimestamp(_ timestampString: String) -> String? {
-        guard let timestamp = Double(timestampString) else {
+        guard let timestamp: Double = Double(timestampString) else {
             print("Invalid timestamp string.")
             return nil
         }
         
-        let date = Date(timeIntervalSince1970: timestamp)
+        let date: Date = Date(timeIntervalSince1970: timestamp)
         
-        let formatter = DateFormatter()
+        let formatter: DateFormatter = DateFormatter()
         formatter.dateFormat = "dd MMM yyyy"
         formatter.timeZone = .current
         formatter.locale = Locale(identifier: "en_US_POSIX")

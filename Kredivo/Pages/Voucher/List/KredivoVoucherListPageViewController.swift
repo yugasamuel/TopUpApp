@@ -20,6 +20,7 @@ final class KredivoVoucherListPageViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = "Voucher Saya"
+        navigationItem.backButtonTitle = ""
         setupView()
     }
     

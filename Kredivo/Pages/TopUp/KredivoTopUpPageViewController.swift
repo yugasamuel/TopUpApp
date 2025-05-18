@@ -20,6 +20,7 @@ final class KredivoTopUpPageViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = "Top Up"
+        navigationItem.backButtonTitle = ""
         setupView()
     }
     

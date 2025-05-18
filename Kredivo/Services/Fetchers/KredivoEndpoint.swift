@@ -13,7 +13,12 @@ enum KredivoEndpoint {
     
     case mobileCredit(mobileNumber: String)
     case voucher
-    case status
+    case status(
+        mobileNumber: String,
+        mobileCreditProductCode: String,
+        mobileCreditLabel: String,
+        voucherId: Int?
+    )
     
     var url: URL? {
         switch self {
@@ -26,8 +31,24 @@ enum KredivoEndpoint {
             return components?.url
         case .voucher:
             return URL(string: "\(Self.baseURLString)/v1/voucher")
-        case .status:
-            return URL(string: "\(Self.baseURLString)/v1/status")
+        case .status(
+            let mobileNumber,
+            let mobileCreditProductCode,
+            let mobileCreditLabel,
+            let voucherId
+        ):
+            let components: URLComponents? = URLComponents(string: "\(Self.baseURLString)/v1/status")
+            var queryItems: [URLQueryItem] = [
+                URLQueryItem(name: "mobile_number", value: mobileNumber),
+                URLQueryItem(name: "mobile_credit_product_code", value: mobileCreditProductCode),
+                URLQueryItem(name: "mobile_credit_label", value: mobileCreditLabel)
+            ]
+            if let voucherId: Int = voucherId {
+                queryItems.append(URLQueryItem(name: "voucher_id", value: "\(voucherId)"))
+            }
+            var updatedComponents: URLComponents? = components
+            updatedComponents?.queryItems = queryItems
+            return updatedComponents?.url
         }
     }
     

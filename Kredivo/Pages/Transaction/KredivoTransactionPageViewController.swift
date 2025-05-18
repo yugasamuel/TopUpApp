@@ -20,6 +20,7 @@ final class KredivoTransactionPageViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = "Konfirmasi Pembayaran"
+        navigationItem.backButtonTitle = ""
         setupView()
     }
     

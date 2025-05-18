@@ -16,5 +16,10 @@ protocol KredivoVoucherFetcherProtocol {
 }
 
 protocol KredivoStatusFetcherProtocol {
-    func fetch() async throws -> KredivoStatusResponse
+    func fetch(
+        mobileNumber: String,
+        mobileCreditProductCode: String,
+        mobileCreditLabel: String,
+        voucherId: Int?
+    ) async throws -> KredivoStatusResponse
 }

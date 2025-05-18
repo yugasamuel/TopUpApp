@@ -32,8 +32,18 @@ struct KredivoVoucherFetcher: KredivoVoucherFetcherProtocol {
 }
 
 struct KredivoStatusFetcher: KredivoStatusFetcherProtocol {
-    func fetch() async throws -> KredivoStatusResponse {
-        let endpoint: KredivoEndpoint = KredivoEndpoint.status
+    func fetch(
+        mobileNumber: String,
+        mobileCreditProductCode: String,
+        mobileCreditLabel: String,
+        voucherId: Int?
+    ) async throws -> KredivoStatusResponse {
+        let endpoint: KredivoEndpoint = KredivoEndpoint.status(
+            mobileNumber: mobileNumber,
+            mobileCreditProductCode: mobileCreditProductCode,
+            mobileCreditLabel: mobileCreditLabel,
+            voucherId: voucherId
+        )
         
         guard let request: URLRequest = endpoint.request else {
             throw KredivoNetworkError.invalidURL(endpoint.url)

@@ -7,7 +7,8 @@
 
 import Foundation
 
-struct KredivoTransactionItem: Decodable {
+struct KredivoTransactionItem: Decodable, Identifiable {
+    var id: String { "\(String(pId ?? 0))-\(name)-\(sku)" }
     let aggregatedPrice: String?
     let quantity: Int
     let status: String?

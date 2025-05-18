@@ -8,6 +8,7 @@
 import Foundation
 
 struct KredivoMobileCreditFetcherMock: KredivoMobileCreditFetcherProtocol {
+    
     var error: KredivoNetworkError?
     var mockResponse: KredivoMobileCreditResponse?
     
@@ -35,6 +36,7 @@ struct KredivoMobileCreditFetcherMock: KredivoMobileCreditFetcherProtocol {
 }
 
 struct KredivoVoucherFetcherMock: KredivoVoucherFetcherProtocol {
+    
     var error: KredivoNetworkError?
     var mockResponse: KredivoVoucherResponse?
     
@@ -62,6 +64,7 @@ struct KredivoVoucherFetcherMock: KredivoVoucherFetcherProtocol {
 }
 
 struct KredivoStatusFetcherMock: KredivoStatusFetcherProtocol {
+    
     var error: KredivoNetworkError?
     var mockResponse: KredivoStatusResponse?
     
@@ -69,7 +72,12 @@ struct KredivoStatusFetcherMock: KredivoStatusFetcherProtocol {
         self.mockResponse = mockResponse
     }
     
-    func fetch() async throws -> KredivoStatusResponse {
+    func fetch(
+        mobileNumber: String,
+        mobileCreditProductCode: String,
+        mobileCreditLabel: String,
+        voucherId: Int?
+    ) async throws -> KredivoStatusResponse {
         if let error: KredivoNetworkError = error {
             throw error
         }
@@ -77,5 +85,13 @@ struct KredivoStatusFetcherMock: KredivoStatusFetcherProtocol {
             throw KredivoNetworkError.invalidResponse
         }
         return response
+    }
+    
+    static func loadMock() -> KredivoStatusResponse? {
+        guard let url: URL = Bundle.main.url(forResource: "status-page-response-mock", withExtension: "json"),
+              let data: Data = try? Data(contentsOf: url) else {
+            return nil
+        }
+        return try? JSONDecoder().decode(KredivoStatusResponse.self, from: data)
     }
 }

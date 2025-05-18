@@ -68,7 +68,22 @@ extension KredivoAppCoordinator: KredivoTopUpPageNavigationDelegate, KredivoVouc
         mobileCreditLabel: String,
         voucherId: Int?
     ) {
+        var statusFetcher: KredivoStatusFetcherMock = KredivoStatusFetcherMock()
+        statusFetcher.mockResponse = KredivoStatusFetcherMock.loadMock()
         
+        let viewModel: KredivoStatusPageViewModel = KredivoStatusPageViewModel(
+            mobileNumber: mobileNumber,
+            mobileCreditProductCode: mobileCreditProductCode,
+            mobileCreditLabel: mobileCreditLabel,
+            voucherId: voucherId,
+            statusFetcher: statusFetcher
+        )
+        viewModel.navigationDelegate = self
+        
+        let viewController: KredivoStatusPageViewController = KredivoStatusPageViewController(
+            viewModel: viewModel
+        )
+        navigationController.pushViewController(viewController, animated: true)
     }
 }
 
@@ -92,5 +107,13 @@ extension KredivoAppCoordinator: KredivoTransactionPageNavigationDelegate {
         
         let viewController: KredivoVoucherListPageViewController = KredivoVoucherListPageViewController(viewModel: viewModel)
         navigationController.pushViewController(viewController, animated: true)
+    }
+}
+
+// MARK: - KredivoStatusPageNavigationDelegate
+
+extension KredivoAppCoordinator: KredivoStatusPageNavigationDelegate {
+    func backToTopUpPage() {
+        navigationController.popToRootViewController(animated: true)
     }
 }
